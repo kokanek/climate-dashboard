@@ -80,6 +80,12 @@ function Admin(props) {
       .then((res) => res.json())
       .then((data) => setData(data.message));
   }, []);
+
+  React.useEffect(() => {
+    fetch("/api/green-check/")
+      .then((res) => res.json())
+      .then((data) => setData(data.message));
+  }, []);
   // this function opens and closes the sidebar on small devices
   const toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");

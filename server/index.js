@@ -2,6 +2,7 @@
 
 const express = require("express");
 const path = require('path');
+require('newrelic');
 
 const PORT = process.env.PORT || 3001;
 
@@ -11,6 +12,10 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
+});
+
+app.get("/test", (req, res) => {
+  res.json({ message: "This is the test API" });
 });
 
 // All other GET requests not handled before will return our React app
