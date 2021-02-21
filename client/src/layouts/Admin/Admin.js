@@ -86,6 +86,13 @@ function Admin(props) {
       .then((res) => res.json())
       .then((data) => console.log('green check api response: ', JSON.stringify(data)));
   }, []);
+
+  React.useEffect(() => {
+    fetch("/api/co2")
+      .then((res) => res.json())
+      .then((data) => console.log('c02 api response: ', data));
+  }, []);
+  
   // this function opens and closes the sidebar on small devices
   const toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
