@@ -2,7 +2,8 @@
 
 const express = require("express");
 const path = require('path');
-const co2 = require('co2-mm-mlo_json.json');
+const fetch = require('node-fetch');
+const co2 = require('./co2-mm-mlo_json.json');
 require('newrelic');
 
 const PORT = process.env.PORT || 3001;
@@ -11,9 +12,10 @@ const app = express();
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-app.get("/api/green-check", (req, res) => {
+app.get("/api/green-check", async (req, res) => {
   let result = await fetch('http://api.thegreenwebfoundation.org/greencheck/www.google.com');
-  res.json(result);
+  let responseJson = await result.json()
+  res.json(responseJson);
 });
 
 app.get("/api/co2", (req, res) => {
