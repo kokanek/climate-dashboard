@@ -82,9 +82,9 @@ function Admin(props) {
   }, []);
 
   React.useEffect(() => {
-    fetch("/api/green-check/")
+    fetch("/api/green-check")
       .then((res) => res.json())
-      .then((data) => setData(data.message));
+      .then((data) => console.log('green check api response: ', JSON.stringify(data)));
   }, []);
   // this function opens and closes the sidebar on small devices
   const toggleSidebar = () => {

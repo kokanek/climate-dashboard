@@ -10,12 +10,12 @@ const app = express();
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+app.get("/api/green-check", (req, res) => {
+  res.json({ message: "This is the green check API" });
 });
 
-app.get("/test", (req, res) => {
-  res.json({ message: "This is the test API" });
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
 });
 
 // All other GET requests not handled before will return our React app
