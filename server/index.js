@@ -1,10 +1,10 @@
 // server/index.js
-
+require('newrelic');
 const express = require("express");
 const path = require('path');
 const fetch = require('node-fetch');
 const co2 = require('./co2-mm-mlo_json.json');
-require('newrelic');
+
 
 const PORT = process.env.PORT || 3001;
 
