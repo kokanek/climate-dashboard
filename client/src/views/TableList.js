@@ -51,6 +51,7 @@ const markers = [
 function Tables() {
   const [data, setData] = useState([]);
   const [modalMap, setModalMap] = useState(false);
+  const [mapData, setMapData] = useState({title: 'test', markers: []});
 
   useEffect(() => {
     fetch("/api/nasa-events")
@@ -58,8 +59,19 @@ function Tables() {
       .then((data) => setData(data));
   }, []);
 
-  const toggleModalMap = () => {
-    console.log('toggling modal map');
+  const toggleModalMap = (row) => {
+    console.log('toggling modal map', row);
+
+    if (row && row.geometries && row.geometries[0]) {
+      const date = new Date(row.geometries[0].date);
+      const location = {
+        markerOffset: -30,
+        name: date.toDateString(),
+        coordinates: row.geometries[0].coordinates
+      }
+      setMapData({title: row.title, markers: [location]});
+    }
+
     setModalMap(!modalMap);
   };
 
@@ -69,7 +81,8 @@ function Tables() {
       return <></>;
     }
     return data.events.map(row => 
-      <tr key={row.id}>
+      <tr key={row.id} onClick={() => toggleModalMap(row)} style={{cursor: 'pointer'}}>
+        <td>🌧</td>
         <td>{row.title}</td>
         <td>{row.categories[0].title}</td>
         <td className="table-icon">
@@ -81,9 +94,6 @@ function Tables() {
   return (
     <>
       <div className="content">
-        <Button onClick={toggleModalMap}>
-          TEST
-        </Button>
         <Row>
           <Col md="12">
             <Card>
@@ -94,6 +104,7 @@ function Tables() {
                 <Table className="tablesorter" responsive>
                   <thead className="text-primary">
                     <tr>
+                      <th></th>
                       <th>Event</th>
                       <th>Category</th>
                       <th>Link</th>
@@ -114,7 +125,8 @@ function Tables() {
         toggle={toggleModalMap}
       >
         <ModalHeader>
-          World map modal
+          <strong>{mapData.title}</strong>
+          <Button onClick={() => setModalMap(false)}>X</Button>
         </ModalHeader>
         <div>
           <ComposableMap>
@@ -128,7 +140,7 @@ function Tables() {
                 />
               )}
             </Geographies>
-            {markers.map(({ name, coordinates, markerOffset }) => (
+            {mapData.markers.map(({ name, coordinates, markerOffset }) => (
               <Marker key={name} coordinates={coordinates}>
                 <g
                   fill="none"
@@ -144,7 +156,7 @@ function Tables() {
                 <text
                   textAnchor="middle"
                   y={markerOffset}
-                  style={{ fontFamily: "system-ui", fill: "#5D5A6D" }}
+                  style={{ fontFamily: "system-ui", fill: "#5D5A6D", fontWeight: 600 }}
                 >
                   {name}
                 </text>
