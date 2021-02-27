@@ -27,31 +27,37 @@ function Footer() {
       <Container fluid>
         <Nav>
           <NavItem>
-            <NavLink href="https://www.creative-tim.com/?ref=bdr-user-archive-footer">
-              Creative Tim
+            <NavLink href="/">
+              Climate Dashboard
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="https://www.creative-tim.com/presentation?ref=bdr-user-archive-footer">
-              About Us
+            <NavLink href="https://www.therelicans.com/therelicans/combat-climate-change-and-earn-prizes-with-hack-the-planet-4g5">
+              Relicans hackathon
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="https://www.creative-tim.com/blog?ref=bdr-user-archive-footer">
-              Blog
+            <NavLink href="https://www.therelicans.com/therelicans/combat-climate-change-and-earn-prizes-with-hack-the-planet-4g5">
+              #HackThePlanet
             </NavLink>
           </NavItem>
         </Nav>
         <div className="copyright">
-          © {new Date().getFullYear()} made with{" "}
+          Made with{" "}
           <i className="tim-icons icon-heart-2" /> by{" "}
           <a
-            href="https://www.creative-tim.com/?ref=bdr-user-archive-footer"
+            href="https://twitter.com/Kokaneka"
+            target="_blank"
+          >
+            kokaneka
+          </a>{" "}
+          using template from{" "}
+          <a
+            href="https://www.creative-tim.com"
             target="_blank"
           >
             Creative Tim
-          </a>{" "}
-          for a better web.
+          </a>{" "}.
         </div>
       </Container>
     </footer>

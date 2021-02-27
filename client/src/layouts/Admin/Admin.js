@@ -93,6 +93,12 @@ function Admin(props) {
       .then((data) => console.log('c02 api: ', data));
   }, []);
 
+  React.useEffect(() => {
+    fetch("/api/nasa-events")
+      .then((res) => res.json())
+      .then((data) => console.log('nasa events api: ', data));
+  }, []);
+
   // this function opens and closes the sidebar on small devices
   const toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
@@ -130,7 +136,7 @@ function Admin(props) {
               routes={routes}
               logo={{
                 outterLink: "https://www.creative-tim.com/",
-                text: "Creative Tim",
+                text: "Climate Dashboard",
                 imgSrc: logo,
               }}
               toggleSidebar={toggleSidebar}
@@ -141,7 +147,6 @@ function Admin(props) {
                 toggleSidebar={toggleSidebar}
                 sidebarOpened={sidebarOpened}
               />
-              <p>{!data ? "Loading..." : data}</p>
               <Switch>
                 {getRoutes(routes)}
                 <Redirect from="*" to="/admin/dashboard" />
@@ -152,7 +157,7 @@ function Admin(props) {
               }
             </div>
           </div>
-          <FixedPlugin bgColor={color} handleBgClick={changeColor} />
+          {/* <FixedPlugin bgColor={color} handleBgClick={changeColor} /> */}
         </React.Fragment>
       )}
     </BackgroundColorContext.Consumer>

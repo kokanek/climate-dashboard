@@ -26,6 +26,14 @@ import UserProfile from "views/UserProfile.js";
 
 var routes = [
   {
+    path: "/tables",
+    name: "NASA EVENTS",
+    rtlName: "قائمة الجدول",
+    icon: "tim-icons icon-puzzle-10",
+    component: TableList,
+    layout: "/admin",
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     rtlName: "لوحة القيادة",
@@ -63,14 +71,6 @@ var routes = [
     rtlName: "ملف تعريفي للمستخدم",
     icon: "tim-icons icon-single-02",
     component: UserProfile,
-    layout: "/admin",
-  },
-  {
-    path: "/tables",
-    name: "Table List",
-    rtlName: "قائمة الجدول",
-    icon: "tim-icons icon-puzzle-10",
-    component: TableList,
     layout: "/admin",
   },
   {

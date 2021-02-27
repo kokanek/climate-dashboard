@@ -14,12 +14,18 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get("/api/green-check", async (req, res) => {
   let result = await fetch('http://api.thegreenwebfoundation.org/greencheck/www.google.com');
-  let responseJson = await result.json()
+  let responseJson = await result.json();
   res.json(responseJson);
 });
 
 app.get("/api/co2", (req, res) => {
   res.json(co2);
+});
+
+app.get("/api/nasa-events", async (req, res) => {
+  let result = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events');
+  let responseJson = await result.json();
+  res.json(responseJson);
 });
 
 app.get("/api", (req, res) => {
