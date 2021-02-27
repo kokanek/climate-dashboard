@@ -16,6 +16,12 @@
 
 */
 import React, {useEffect, useState} from "react";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  Marker
+} from "react-simple-maps"
 
 // reactstrap components
 import {
@@ -26,16 +32,36 @@ import {
   Table,
   Row,
   Col,
+  Modal,
+  ModalHeader,
+  Button
 } from "reactstrap";
+
+const geoUrl =
+  "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json"
+
+const markers = [
+  {
+    markerOffset: -30,
+    name: "Buenos Aires",
+    coordinates: [-58.3816, -34.6037]
+  }
+];
 
 function Tables() {
   const [data, setData] = useState([]);
+  const [modalMap, setModalMap] = useState(false);
 
   useEffect(() => {
     fetch("/api/nasa-events")
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
+
+  const toggleModalMap = () => {
+    console.log('toggling modal map');
+    setModalMap(!modalMap);
+  };
 
   function getTableRows(data) {
     console.log('get table rows for data: ', data);
@@ -55,11 +81,14 @@ function Tables() {
   return (
     <>
       <div className="content">
+        <Button onClick={toggleModalMap}>
+          TEST
+        </Button>
         <Row>
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Natural events from EONET</CardTitle>
+                <CardTitle tag="h1">Natural events from EONET</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table className="tablesorter" responsive>
@@ -77,72 +106,53 @@ function Tables() {
               </CardBody>
             </Card>
           </Col>
-          {/* <Col md="12">
-            <Card className="card-plain">
-              <CardHeader>
-                <CardTitle tag="h4">Table on Plain Background</CardTitle>
-                <p className="category">Here is a subtitle for this table</p>
-              </CardHeader>
-              <CardBody>
-                <Table className="tablesorter" responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-center">Salary</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-center">$36,738</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-center">$23,789</td>
-                    </tr>
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td className="text-center">$56,142</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td className="text-center">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                      <td className="text-center">$63,542</td>
-                    </tr>
-                    <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$78,615</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$98,615</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col> */}
         </Row>
       </div>
+      <Modal
+        modalClassName="modal-search"
+        isOpen={modalMap}
+        toggle={toggleModalMap}
+      >
+        <ModalHeader>
+          World map modal
+        </ModalHeader>
+        <div>
+          <ComposableMap>
+            <Geographies geography={geoUrl}>
+              {({geographies}) => geographies.map(geo =>
+                <Geography 
+                  key={geo.rsmKey} 
+                  geography={geo} 
+                  fill="#EAEAEC"
+                  stroke="#D6D6DA"
+                />
+              )}
+            </Geographies>
+            {markers.map(({ name, coordinates, markerOffset }) => (
+              <Marker key={name} coordinates={coordinates}>
+                <g
+                  fill="none"
+                  stroke="#FF5533"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  transform="translate(-12, -24)"
+                >
+                  <circle cx="12" cy="10" r="3" />
+                  <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z" />
+                </g>
+                <text
+                  textAnchor="middle"
+                  y={markerOffset}
+                  style={{ fontFamily: "system-ui", fill: "#5D5A6D" }}
+                >
+                  {name}
+                </text>
+              </Marker>
+            ))}
+          </ComposableMap>
+        </div>
+      </Modal>
     </>
   );
 }
