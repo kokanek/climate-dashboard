@@ -16,37 +16,29 @@
 
 */
 import React, {useEffect, useState} from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker
-} from "react-simple-maps"
+import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps"
 
 // reactstrap components
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Table,
-  Row,
-  Col,
-  Modal,
-  ModalHeader,
-  Button
-} from "reactstrap";
+import { Card, CardHeader, CardBody, CardTitle, Table, Row, Col, Modal, ModalHeader, Button } from "reactstrap";
 
 const geoUrl =
   "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json"
 
-const markers = [
-  {
-    markerOffset: -30,
-    name: "Buenos Aires",
-    coordinates: [-58.3816, -34.6037]
-  }
-];
+const categoryMap = {
+  10: '⛈',
+  8: '🔥',
+  12: '🌋',
+  15: '❄️',
+  17: '❄️',
+  6: '🌵',
+  7: '💨',
+  16: '⛰',
+  9: '💦',
+  14: '🗻',
+  19: '👨🏽‍⚖️',
+  18: '🥵',
+  13: '💦'
+};
 
 function Tables() {
   const [data, setData] = useState([]);
@@ -60,8 +52,6 @@ function Tables() {
   }, []);
 
   const toggleModalMap = (row) => {
-    console.log('toggling modal map', row);
-
     if (row && row.geometries && row.geometries[0]) {
       const date = new Date(row.geometries[0].date);
       const location = {
@@ -69,24 +59,23 @@ function Tables() {
         name: date.toDateString(),
         coordinates: row.geometries[0].coordinates
       }
-      setMapData({title: row.title, markers: [location]});
+      setMapData({title: row.title, markers: [location], category: row.categories[0].id});
     }
 
     setModalMap(!modalMap);
   };
 
   function getTableRows(data) {
-    console.log('get table rows for data: ', data);
     if (!data || !data.events) {
       return <></>;
     }
     return data.events.map(row => 
-      <tr key={row.id} onClick={() => toggleModalMap(row)} style={{cursor: 'pointer'}}>
-        <td>🌧</td>
-        <td>{row.title}</td>
+      <tr key={row.id}  style={{cursor: 'pointer'}}>
+        <td>{categoryMap[row.categories[0].id]}</td>
+        <td><a href={row.sources[0].url} target="_blank">{row.title}</a></td>
         <td>{row.categories[0].title}</td>
-        <td className="table-icon">
-          <a href={row.sources[0].url} target="_blank"><i className="tim-icons icon-double-right" /></a>
+        <td>
+          <i className="tim-icons icon-pin table-icon" onClick={() => toggleModalMap(row)}/>
         </td>
       </tr>
     ) 
@@ -98,7 +87,7 @@ function Tables() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h1">Natural events from EONET</CardTitle>
+                <CardTitle tag="h1">Natural events from NASA</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table className="tablesorter" responsive>
@@ -107,7 +96,7 @@ function Tables() {
                       <th></th>
                       <th>Event</th>
                       <th>Category</th>
-                      <th>Link</th>
+                      <th>Map</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -125,7 +114,10 @@ function Tables() {
         toggle={toggleModalMap}
       >
         <ModalHeader>
-          <strong>{mapData.title}</strong>
+          <span style={{fontSize: '1.4rem', color: 'grey'}}>
+            <span style={{marginRight: '1rem'}}>{categoryMap[mapData.category]}</span>
+            <strong>{mapData.title}</strong>
+          </span>
           <Button onClick={() => setModalMap(false)}>X</Button>
         </ModalHeader>
         <div>

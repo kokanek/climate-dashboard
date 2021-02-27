@@ -135,7 +135,7 @@ function Admin(props) {
             <Sidebar
               routes={routes}
               logo={{
-                outterLink: "https://www.creative-tim.com/",
+                outterLink: "/",
                 text: "Climate Dashboard",
                 imgSrc: logo,
               }}

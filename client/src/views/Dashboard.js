@@ -50,11 +50,56 @@ import {
   chartExample4,
 } from "variables/charts.js";
 
-function Dashboard(props) {
-  const [bigChartData, setbigChartData] = React.useState("data1");
-  const setBgChartData = (name) => {
-    setbigChartData(name);
+const renderChart = (canvas, data) => {
+  let ctx = canvas.getContext("2d");
+
+  let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+  gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+  gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+  gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+
+  data = data.filter(d => d["Average"] > 0);
+  const labels = data.map(d => d["Date"].split('-')[0]);
+  const values = data.map(d => d["Average"]);
+
+  return {
+    labels: labels,
+    datasets: [
+      {
+        label: "co2 concentration",
+        fill: true,
+        backgroundColor: gradientStroke,
+        borderColor: "#1f8ef1",
+        borderWidth: 2,
+        borderDash: [],
+        borderDashOffset: 0.0,
+        pointBackgroundColor: "#1f8ef1",
+        pointBorderColor: "rgba(255,255,255,0)",
+        pointHoverBackgroundColor: "#1f8ef1",
+        pointBorderWidth: 20,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 15,
+        pointRadius: 4,
+        data: values,
+      },
+    ],
   };
+};
+
+function Dashboard(props) {
+  const [bigChartData, setbigChartData] = React.useState([]);
+  
+  // const setBgChartData = (name) => {
+  //   setbigChartData(name);
+  // };
+  React.useEffect(() => {
+    fetch("/api/co2")
+      .then((res) => res.json())
+      .then((data) => setbigChartData(data));
+  }, []);
+
+
   return (
     <>
       <div className="content">
@@ -64,8 +109,8 @@ function Dashboard(props) {
               <CardHeader>
                 <Row>
                   <Col className="text-left" sm="6">
-                    <h5 className="card-category">Total Shipments</h5>
-                    <CardTitle tag="h2">Performance</CardTitle>
+                    <h5 className="card-category">Historical plot</h5>
+                    <CardTitle tag="h2">Co2 meter</CardTitle>
                   </Col>
                   <Col sm="6">
                     <ButtonGroup
@@ -80,7 +125,7 @@ function Dashboard(props) {
                         color="info"
                         id="0"
                         size="sm"
-                        onClick={() => setBgChartData("data1")}
+                        onClick={() => {}}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                           Accounts
@@ -97,7 +142,7 @@ function Dashboard(props) {
                         className={classNames("btn-simple", {
                           active: bigChartData === "data2",
                         })}
-                        onClick={() => setBgChartData("data2")}
+                        onClick={() => {}}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                           Purchases
@@ -114,7 +159,7 @@ function Dashboard(props) {
                         className={classNames("btn-simple", {
                           active: bigChartData === "data3",
                         })}
-                        onClick={() => setBgChartData("data3")}
+                        onClick={() => {}}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                           Sessions
@@ -130,7 +175,7 @@ function Dashboard(props) {
               <CardBody>
                 <div className="chart-area">
                   <Line
-                    data={chartExample1[bigChartData]}
+                    data={(canvas) => renderChart(canvas, bigChartData)}
                     options={chartExample1.options}
                   />
                 </div>
