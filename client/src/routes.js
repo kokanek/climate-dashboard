@@ -17,21 +17,22 @@
 */
 import C02 from "views/C02.js";
 import Fossil from "views/Fossil.js";
+import SeaNGlaciers from "views/SeaNGlaciers.js";
 import Icons from "views/Icons.js";
 import Map from "views/Map.js";
 import Notifications from "views/Notifications.js";
 import Rtl from "views/Rtl.js";
-import TableList from "views/TableList.js";
+import Events from "views/Events.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
 
 var routes = [
   {
-    path: "/tables",
+    path: "/events",
     name: "NASA EVENTS",
     rtlName: "قائمة الجدول",
     icon: "tim-icons icon-puzzle-10",
-    component: TableList,
+    component: Events,
     layout: "/admin",
   },
   {
@@ -44,10 +45,18 @@ var routes = [
   },
   {
     path: "/fossil",
-    name: "Fossil Fuel",
+    name: "CARBON EMISSION",
     rtlName: "الرموز",
     icon: "tim-icons icon-atom",
     component: Fossil,
+    layout: "/admin",
+  },
+  {
+    path: "/sea-level",
+    name: "SEA LEVEL & GLACIER MASS",
+    rtlName: "الرموز",
+    icon: "tim-icons icon-atom",
+    component: SeaNGlaciers,
     layout: "/admin",
   },
   {

@@ -8,6 +8,8 @@ const global_average_co2_growth = require('./data/co2_annual_growth.json');
 const mauna_loa_co2_growth = require('./data/mauna_loa_annual_growth.json');
 const mauna_loa_co2_mean = require('./data/mauna_loa_annual_mean.json');
 const fossil_by_nation = require('./data/fossil_emission_by_nation.json');
+const sea_level = require('./data/sea_level.json');
+const glacier_mass = require('./data/glacier_mass.json');
 
 
 const PORT = process.env.PORT || 3001;
@@ -66,6 +68,14 @@ app.get("/api/nasa-events", async (req, res) => {
   let result = await fetch('https://eonet.sci.gsfc.nasa.gov/api/v2.1/events');
   let responseJson = await result.json();
   res.json(responseJson);
+});
+
+app.get("/api/sea-level", (req, res) => {
+  res.json(sea_level);
+});
+
+app.get("/api/glacier-mass", (req, res) => {
+  res.json(glacier_mass);
 });
 
 app.get("/api", (req, res) => {

@@ -22,10 +22,9 @@ import classNames from "classnames";
 import { Line, Bar } from "react-chartjs-2";
 
 // reactstrap components
-import { Alert, Button, ButtonGroup, Card, CardHeader, CardBody, CardTitle, Row, Col} from "reactstrap";
+import { Alert, Card, CardHeader, CardBody, CardTitle, Row, Col} from "reactstrap";
 
-const countries = ['usa', 'china', 'india', 'japan', 'iran', 'saudi', 'korea', 'canada'];
-const lineChartOptions = {
+const seaLevelChartOptions = {
   maintainAspectRatio: false,
   legend: {
     display: false,
@@ -51,7 +50,6 @@ const lineChartOptions = {
           zeroLineColor: "transparent",
         },
         ticks: {
-          min: 0,
           padding: 20,
           fontColor: "#9a9a9a",
         },
@@ -74,55 +72,56 @@ const lineChartOptions = {
   },
 };
 
-const barChartOptions = {
-    maintainAspectRatio: false,
-    legend: {
-      display: false,
-    },
-    tooltips: {
-      backgroundColor: "#f5f5f5",
-      titleFontColor: "#333",
-      bodyFontColor: "#666",
-      bodySpacing: 4,
-      xPadding: 12,
-      mode: "nearest",
-      intersect: 0,
-      position: "nearest",
-    },
-    responsive: true,
-    scales: {
-      yAxes: [
-        {
-          gridLines: {
-            drawBorder: false,
-            color: "rgba(225,78,202,0.1)",
-            zeroLineColor: "transparent",
-          },
-          ticks: {
-            min: 0,
-            max: 3.5,
-            padding: 20,
-            fontColor: "#9e9e9e",
-          },
+const glacierChartOptions = {
+  maintainAspectRatio: false,
+  legend: {
+    display: false,
+  },
+  tooltips: {
+    backgroundColor: "#f5f5f5",
+    titleFontColor: "#333",
+    bodyFontColor: "#666",
+    bodySpacing: 4,
+    xPadding: 12,
+    mode: "nearest",
+    intersect: 0,
+    position: "nearest",
+  },
+  responsive: true,
+  scales: {
+    yAxes: [
+      {
+        barPercentage: 1.6,
+        gridLines: {
+          drawBorder: false,
+          color: "rgba(29,140,248,0.0)",
+          zeroLineColor: "transparent",
         },
-      ],
-      xAxes: [
-        {
-          gridLines: {
-            drawBorder: false,
-            color: "rgba(225,78,202,0.1)",
-            zeroLineColor: "transparent",
-          },
-          ticks: {
-            padding: 20,
-            fontColor: "#9e9e9e",
-          },
+        ticks: {
+          min: -30,
+          padding: 20,
+          fontColor: "#9a9a9a",
         },
-      ],
-    },
+      },
+    ],
+    xAxes: [
+      {
+        barPercentage: 1.6,
+        gridLines: {
+          drawBorder: false,
+          color: "rgba(29,140,248,0.1)",
+          zeroLineColor: "transparent",
+        },
+        ticks: {
+          padding: 20,
+          fontColor: "#9a9a9a",
+        },
+      },
+    ],
+  },
 };
 
-const renderChart = (canvas, data, country, key) => {
+const renderChart = (canvas, data, key) => {
   let ctx = canvas.getContext("2d");
 
   let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -131,15 +130,25 @@ const renderChart = (canvas, data, country, key) => {
   gradientStroke.addColorStop(0.4, "rgba(72,72,176,0.0)");
   gradientStroke.addColorStop(0, "rgba(119,52,169,0)"); //purple colors
 
-  data = data[country] || [];
-  const labels = data.map(d => d["Year"]);
+  data = data || [];
+  let labels;
+  let label;
+  
+  if (key === 'CSIRO Adjusted Sea Level') {
+    labels = data.map(d => d["Year"].split('-')[0]);
+    label = 'sea level';
+  } else {
+    labels = data.map(d => d["Year"].toString());
+    label = 'glacier mass'
+  }
+
   const values = data.map(d => d[key]);
 
   return {
     labels: labels,
     datasets: [
       {
-        label: "co2 emission",
+        label: label,
         fill: true,
         backgroundColor: gradientStroke,
         borderColor: "#d048b6",
@@ -149,7 +158,6 @@ const renderChart = (canvas, data, country, key) => {
         pointBackgroundColor: "#d048b6",
         pointBorderColor: "rgba(255,255,255,0)",
         pointHoverBackgroundColor: "#1f8ef1",
-        pointBorderWidth: 20,
         pointHoverRadius: 4,
         pointHoverBorderWidth: 15,
         pointRadius: 0.5,
@@ -205,52 +213,30 @@ function getLocation() {
   }
 }
 
-function generateButtons(country, setCountry) {
-  return countries.map(c =>
-    <Button
-      tag="label"
-      className={classNames("btn-simple", {
-        active: country === c,
-      })}
-      color="info"
-      id="0"
-      size="sm"
-      onClick={() => {setCountry(c)}}
-    >
-      <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-        {c.toUpperCase()}
-      </span>
-      <span className="d-block d-sm-none">
-        <i className="tim-icons icon-single-02" />
-      </span>
-    </Button>
-  )
-}
-
 function Dashboard(props) {
-  const [bigChartData, setbigChartData] = React.useState({});
-  const [fuelCountry, setFuelCountry] = React.useState('india');
-  const [country, setCountry] = React.useState('india');
+  const [seaLevelData, setSeaLevelData] = React.useState([]);
+  // const [barChartData, setBarChartData] = React.useState({});
+  const [glacierMassData, setGlacierMassData] = React.useState([]);
   // const [barChartType, setBarChartType] = React.useState('mauna-loa');
   
   getLocation();
   React.useEffect(() => {
-    fetch("/api/fossil")
+    fetch("/api/sea-level")
       .then((res) => res.json())
-      .then((data) => setbigChartData(data));
+      .then((data) => setSeaLevelData(data));
   }, []);
-  // React.useEffect(() => {
-  //   fetch("/api/co2/growth")
-  //     .then((res) => res.json())
-  //     .then((data) => setBarChartData(data));
-  // }, []);
+  React.useEffect(() => {
+    fetch("/api/glacier-mass")
+      .then((res) => res.json())
+      .then((data) => setGlacierMassData(data));
+  }, []);
 
 
   return (
     <>
       <div className="content">
         <Alert color="danger">
-          <span>This page shows the carbon emission (in metric tonnes) for some of the major countries in the world.</span>
+          <span>This page highlights the correlation between the rising sea level and declining glacier mass.</span>
         </Alert>
         <Row>
           <Col xs="12">
@@ -258,24 +244,16 @@ function Dashboard(props) {
               <CardHeader>
                 <Row>
                   <Col className="text-left" sm="6">
-                    <h5 className="card-category">{country.toUpperCase()}</h5>
-                    <CardTitle tag="h2">Carbon emission (metric tonnes)</CardTitle>
-                  </Col>
-                  <Col sm="6">
-                    <ButtonGroup
-                      className="btn-group-toggle float-right"
-                      data-toggle="buttons"
-                    >
-                      {generateButtons(country, setCountry)}
-                    </ButtonGroup>
+                    <h5 className="card-category">Historical data</h5>
+                    <CardTitle tag="h2">Sea Level (inches)</CardTitle>
                   </Col>
                 </Row>
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
-                  <Bar
-                    data={(canvas) => renderChart(canvas, bigChartData, country, 'Total')}
-                    options={lineChartOptions}
+                  <Line
+                    data={(canvas) => renderChart(canvas, seaLevelData, 'CSIRO Adjusted Sea Level')}
+                    options={seaLevelChartOptions}
                   />
                 </div>
               </CardBody>
@@ -288,24 +266,16 @@ function Dashboard(props) {
               <CardHeader>
                 <Row>
                   <Col className="text-left" sm="6">
-                    <h5 className="card-category">{country.toUpperCase()}</h5>
-                    <CardTitle tag="h2">Liquid fuel (metric tonnes)</CardTitle>
-                  </Col>
-                  <Col sm="6">
-                    <ButtonGroup
-                      className="btn-group-toggle float-right"
-                      data-toggle="buttons"
-                    >
-                      {generateButtons(fuelCountry, setFuelCountry)}
-                    </ButtonGroup>
+                    <h5 className="card-category">Historical data</h5>
+                    <CardTitle tag="h2">Glacier mass</CardTitle>
                   </Col>
                 </Row>
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
                   <Line
-                    data={(canvas) => renderChart(canvas, bigChartData, fuelCountry, 'Liquid Fuel')}
-                    options={lineChartOptions}
+                    data={(canvas) => renderChart(canvas, glacierMassData, 'Mean cumulative mass balance')}
+                    options={glacierChartOptions}
                   />
                 </div>
               </CardBody>
