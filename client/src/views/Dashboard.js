@@ -50,7 +50,7 @@ import {
   chartExample4,
 } from "variables/charts.js";
 
-const renderChart = (canvas, data) => {
+const renderChart = (canvas, data, chartType) => {
   let ctx = canvas.getContext("2d");
 
   let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -59,9 +59,10 @@ const renderChart = (canvas, data) => {
   gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
   gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
 
-  data = data.filter(d => d["Average"] > 0);
-  const labels = data.map(d => d["Date"].split('-')[0]);
-  const values = data.map(d => d["Average"]);
+  console.log('chartType: ', data, chartType);
+  data = data[chartType] || [];
+  const labels = data.map(d => d["Year"].split('-')[0]);
+  const values = data.map(d => d["Mean"]);
 
   return {
     labels: labels,
@@ -87,14 +88,21 @@ const renderChart = (canvas, data) => {
   };
 };
 
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(console.log);
+  } else {
+    alert('geolocation not supported')
+  }
+}
+
 function Dashboard(props) {
-  const [bigChartData, setbigChartData] = React.useState([]);
+  const [bigChartData, setbigChartData] = React.useState({});
+  const [chartType, setChartType] = React.useState('mauna-loa');
   
-  // const setBgChartData = (name) => {
-  //   setbigChartData(name);
-  // };
+  getLocation();
   React.useEffect(() => {
-    fetch("/api/co2")
+    fetch("/api/co2/mean")
       .then((res) => res.json())
       .then((data) => setbigChartData(data));
   }, []);
@@ -120,15 +128,15 @@ function Dashboard(props) {
                       <Button
                         tag="label"
                         className={classNames("btn-simple", {
-                          active: bigChartData === "data1",
+                          active: chartType === "mauna-loa",
                         })}
                         color="info"
                         id="0"
                         size="sm"
-                        onClick={() => {}}
+                        onClick={() => {setChartType('mauna-loa')}}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Accounts
+                          Mauna Loa
                         </span>
                         <span className="d-block d-sm-none">
                           <i className="tim-icons icon-single-02" />
@@ -140,32 +148,15 @@ function Dashboard(props) {
                         size="sm"
                         tag="label"
                         className={classNames("btn-simple", {
-                          active: bigChartData === "data2",
+                          active: chartType === "global-average",
                         })}
-                        onClick={() => {}}
+                        onClick={() => {setChartType('global-average')}}
                       >
                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Purchases
+                          Global Average
                         </span>
                         <span className="d-block d-sm-none">
                           <i className="tim-icons icon-gift-2" />
-                        </span>
-                      </Button>
-                      <Button
-                        color="info"
-                        id="2"
-                        size="sm"
-                        tag="label"
-                        className={classNames("btn-simple", {
-                          active: bigChartData === "data3",
-                        })}
-                        onClick={() => {}}
-                      >
-                        <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                          Sessions
-                        </span>
-                        <span className="d-block d-sm-none">
-                          <i className="tim-icons icon-tap-02" />
                         </span>
                       </Button>
                     </ButtonGroup>
@@ -175,7 +166,7 @@ function Dashboard(props) {
               <CardBody>
                 <div className="chart-area">
                   <Line
-                    data={(canvas) => renderChart(canvas, bigChartData)}
+                    data={(canvas) => renderChart(canvas, bigChartData, chartType)}
                     options={chartExample1.options}
                   />
                 </div>

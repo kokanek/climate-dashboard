@@ -3,7 +3,10 @@ require('newrelic');
 const express = require("express");
 const path = require('path');
 const fetch = require('node-fetch');
-const co2 = require('./co2-mm-mlo_json.json');
+const global_average_co2_mean = require('./data/co2_annual_mean.json');
+const global_average_co2_growth = require('./data/co2_annual_growth.json');
+const mauna_loa_co2_growth = require('./data/mauna_loa_annual_growth.json');
+const mauna_loa_co2_mean = require('./data/mauna_loa_annual_mean.json');
 
 
 const PORT = process.env.PORT || 3001;
@@ -18,8 +21,18 @@ app.get("/api/green-check", async (req, res) => {
   res.json(responseJson);
 });
 
-app.get("/api/co2", (req, res) => {
-  res.json(co2);
+app.get("/api/co2/mean", (req, res) => {
+  res.json({
+    "global-average": global_average_co2_mean,
+    "mauna-loa": mauna_loa_co2_mean
+  });
+});
+
+app.get("/api/co2/growth", (req, res) => {
+  res.json({
+    "global-average": global_average_co2_growth,
+    "mauna-loa": mauna_loa_co2_growth
+  });
 });
 
 app.get("/api/nasa-events", async (req, res) => {
