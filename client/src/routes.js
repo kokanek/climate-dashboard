@@ -15,7 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Dashboard from "views/Dashboard.js";
+import C02 from "views/C02.js";
+import Fossil from "views/Fossil.js";
 import Icons from "views/Icons.js";
 import Map from "views/Map.js";
 import Notifications from "views/Notifications.js";
@@ -34,19 +35,19 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
+    path: "/c02",
+    name: "CO2 CONCENTRATION",
     rtlName: "لوحة القيادة",
     icon: "tim-icons icon-chart-pie-36",
-    component: Dashboard,
+    component: C02,
     layout: "/admin",
   },
   {
-    path: "/icons",
-    name: "Icons",
+    path: "/fossil",
+    name: "Fossil Fuel",
     rtlName: "الرموز",
     icon: "tim-icons icon-atom",
-    component: Icons,
+    component: Fossil,
     layout: "/admin",
   },
   {

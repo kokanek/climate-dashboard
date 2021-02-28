@@ -46,7 +46,7 @@ let chart1_2_options = {
           zeroLineColor: "transparent",
         },
         ticks: {
-          min: 315,
+          min: 310,
           padding: 20,
           fontColor: "#9a9a9a",
         },
@@ -305,8 +305,8 @@ let chartExample3 = {
             zeroLineColor: "transparent",
           },
           ticks: {
-            suggestedMin: 60,
-            suggestedMax: 120,
+            min: 0,
+            max: 3.5,
             padding: 20,
             fontColor: "#9e9e9e",
           },
