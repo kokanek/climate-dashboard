@@ -74,31 +74,6 @@ function Admin(props) {
     }
   }, [location]);
 
-  const [data, setData] = React.useState(null);
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
-
-  React.useEffect(() => {
-    fetch("/api/green-check")
-      .then((res) => res.json())
-      .then((data) => console.log('green check api: ', JSON.stringify(data)));
-  }, []);
-
-  React.useEffect(() => {
-    fetch("/api/co2")
-      .then((res) => res.json())
-      .then((data) => console.log('c02 api: ', data));
-  }, []);
-
-  React.useEffect(() => {
-    fetch("/api/nasa-events")
-      .then((res) => res.json())
-      .then((data) => console.log('nasa events api: ', data));
-  }, []);
-
   // this function opens and closes the sidebar on small devices
   const toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");

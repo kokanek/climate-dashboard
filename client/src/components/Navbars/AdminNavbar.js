@@ -75,7 +75,7 @@ function AdminNavbar(props) {
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
         <Container fluid>
-          <div className="navbar-wrapper">
+          <div className="navbar-wrapper" style={{paddingTop: 16}}>
             <div
               className={classNames("navbar-toggle d-inline", {
                 toggled: props.sidebarOpened,
@@ -87,24 +87,24 @@ function AdminNavbar(props) {
                 <span className="navbar-toggler-bar bar3" />
               </NavbarToggler>
             </div>
-            <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
+            <NavbarBrand onClick={(e) => e.preventDefault()} style={{fontSize: '2rem'}}>
               {props.brandText}
             </NavbarBrand>
           </div>
-          <NavbarToggler onClick={toggleCollapse}>
+          {/* <NavbarToggler onClick={toggleCollapse}>
             <span className="navbar-toggler-bar navbar-kebab" />
             <span className="navbar-toggler-bar navbar-kebab" />
             <span className="navbar-toggler-bar navbar-kebab" />
-          </NavbarToggler>
+          </NavbarToggler> */}
           <Collapse navbar isOpen={collapseOpen}>
             <Nav className="ml-auto" navbar>
-              <InputGroup className="search-bar">
+              {/* <InputGroup className="search-bar" style={{display: ''}}>
                 <Button color="link" onClick={toggleModalSearch}>
                   <i className="tim-icons icon-zoom-split" />
                   <span className="d-lg-none d-md-block">Search</span>
                 </Button>
-              </InputGroup>
-              <UncontrolledDropdown nav>
+              </InputGroup> */}
+              {/* <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
                   color="default"
@@ -171,7 +171,7 @@ function AdminNavbar(props) {
                     <DropdownItem className="nav-item">Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
-              </UncontrolledDropdown>
+              </UncontrolledDropdown> */}
               <li className="separator d-lg-none" />
             </Nav>
           </Collapse>

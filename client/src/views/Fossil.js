@@ -259,7 +259,7 @@ function Dashboard(props) {
                 <Row>
                   <Col className="text-left" sm="6">
                     <h5 className="card-category">{country.toUpperCase()}</h5>
-                    <CardTitle tag="h2">Carbon emission (metric tonnes)</CardTitle>
+                    <CardTitle tag="h2">Carbon emission (Total)</CardTitle>
                   </Col>
                   <Col sm="6">
                     <ButtonGroup
@@ -289,7 +289,7 @@ function Dashboard(props) {
                 <Row>
                   <Col className="text-left" sm="6">
                     <h5 className="card-category">{country.toUpperCase()}</h5>
-                    <CardTitle tag="h2">Liquid fuel (metric tonnes)</CardTitle>
+                    <CardTitle tag="h2">Carbon emission (Liquid fuel)</CardTitle>
                   </Col>
                   <Col sm="6">
                     <ButtonGroup

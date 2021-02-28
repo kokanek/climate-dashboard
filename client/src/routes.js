@@ -60,8 +60,8 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/map",
-    name: "Map",
+    path: "/green-check",
+    name: "Green Check",
     rtlName: "خرائط",
     icon: "tim-icons icon-pin",
     component: Map,

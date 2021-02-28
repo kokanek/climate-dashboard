@@ -50,14 +50,7 @@ function Footer() {
             target="_blank"
           >
             kokaneka
-          </a>{" "}
-          using template from{" "}
-          <a
-            href="https://www.creative-tim.com"
-            target="_blank"
-          >
-            Creative Tim
-          </a>{" "}.
+          </a>
         </div>
       </Container>
     </footer>

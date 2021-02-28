@@ -19,7 +19,8 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get("/api/green-check", async (req, res) => {
-  let result = await fetch('http://api.thegreenwebfoundation.org/greencheck/www.google.com');
+  const url = req.query.testUrl;
+  let result = await fetch(`https://api.thegreenwebfoundation.org/greencheck/${url}`);
   let responseJson = await result.json();
   res.json(responseJson);
 });

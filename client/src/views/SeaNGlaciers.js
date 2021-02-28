@@ -236,7 +236,7 @@ function Dashboard(props) {
     <>
       <div className="content">
         <Alert color="danger">
-          <span>This page highlights the correlation between the rising sea level and declining glacier mass.</span>
+          <span>This page highlights the correlation between the rising sea level and declining glacier mass by using data from a CSIRO study and the WGMS (World Glacier Monitoring Service).</span>
         </Alert>
         <Row>
           <Col xs="12">
