@@ -197,21 +197,12 @@ const renderBarChart = (canvas, data, chartType) => {
   };
 };
 
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(console.log);
-  } else {
-    alert('geolocation not supported')
-  }
-}
-
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState({});
   const [barChartData, setBarChartData] = React.useState({});
   const [chartType, setChartType] = React.useState('mauna-loa');
   const [barChartType, setBarChartType] = React.useState('mauna-loa');
-  
-  getLocation();
+
   React.useEffect(() => {
     fetch("/api/co2/mean")
       .then((res) => res.json())

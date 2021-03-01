@@ -33,17 +33,12 @@ import {
   Label,
   UncontrolledTooltip,
   CardTitle,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  Table,
+  Alert
 } from "reactstrap";
 
 import { Line, Bar } from "react-chartjs-2";
 
 import {
-  chartExample1,
   chartExample2,
   chartExample3,
   chartExample4,
@@ -81,21 +76,22 @@ function UserProfile() {
   return (
     <>
       <div className="content">
+        <Alert color="success">
+          <span>Now that we have observability over climate change and its impact, we must do our part to try and reverse the damage</span>
+        </Alert>
         <Row>
           <Col lg="4">
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">Total Shipments</h5>
+                <h5 className="card-category">wren.co</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-bell-55 text-info" /> 763,215
+                  <i className="tim-icons icon-bell-55 text-info" /> Erase your carbon footprint
                 </CardTitle>
               </CardHeader>
               <CardBody>
-                <div className="chart-area">
-                  <Line
-                    data={chartExample2.data}
-                    options={chartExample2.options}
-                  />
+                <div className="chart-area" style={{padding: 32}}>
+                  <p>Calculate the amount of carbon footprint that you are contributing to the planet and then support causes to reverse that amount using services provided by Wren...</p>
+                  <a href="https://www.wren.co" target="_blank">More info</a>
                 </div>
               </CardBody>
             </Card>
@@ -103,18 +99,15 @@ function UserProfile() {
           <Col lg="4">
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">Daily Sales</h5>
+                <h5 className="card-category">onetreeplanted.org</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-delivery-fast text-primary" />{" "}
-                  3,500€
+                  <i className="tim-icons icon-bell-55 text-info" /> Plant a tree
                 </CardTitle>
               </CardHeader>
               <CardBody>
-                <div className="chart-area">
-                  <Bar
-                    data={chartExample3.data}
-                    options={chartExample3.options}
-                  />
+                <div className="chart-area" style={{padding: 32}}>
+                  <p>Given the obvious role that trees play in reversing the carbon concentration in the air and slow down the process of adverse climate change, there is no other way more easier than just planting a tree...</p>
+                  <a href="https://onetreeplanted.org/pages/why-trees" target="_blank">More info</a>
                 </div>
               </CardBody>
             </Card>
@@ -122,23 +115,21 @@ function UserProfile() {
           <Col lg="4">
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">Completed Tasks</h5>
+                <h5 className="card-category">treesisters.org</h5>
                 <CardTitle tag="h3">
-                  <i className="tim-icons icon-send text-success" /> 12,100K
+                  <i className="tim-icons icon-bell-55 text-info" /> Restore the forests
                 </CardTitle>
               </CardHeader>
               <CardBody>
-                <div className="chart-area">
-                  <Line
-                    data={chartExample4.data}
-                    options={chartExample4.options}
-                  />
+                <div className="chart-area" style={{padding: 32}}>
+                  <p>The amount of forests that we are losing to wildfires and other causes every year just keeps on growing. We can do our part by contributing to the restoration of those ecosystems by joining treesisters...</p>
+                  <a href="https://treesisters.org/reforest-our-future" target="_blank">More info</a>
                 </div>
               </CardBody>
             </Card>
           </Col>
         </Row>
-        <Row>
+        {/* <Row>
           <Col lg="6" md="12">
             <Card className="card-tasks">
               <CardHeader>
@@ -469,7 +460,7 @@ function UserProfile() {
               </CardBody>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
       
       </div>
     </>

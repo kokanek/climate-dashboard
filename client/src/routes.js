@@ -75,14 +75,14 @@ var routes = [
   //   component: Notifications,
   //   layout: "/admin",
   // },
-  // {
-  //   path: "/my-weather",
-  //   name: "My Weather",
-  //   rtlName: "ملف تعريفي للمستخدم",
-  //   icon: "tim-icons icon-single-02",
-  //   component: UserProfile,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/my-role",
+    name: "My Role",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: "tim-icons icon-single-02",
+    component: UserProfile,
+    layout: "/admin",
+  },
   // {
   //   path: "/typography",
   //   name: "Typography",

@@ -197,13 +197,6 @@ const renderBarChart = (canvas, data, chartType) => {
   };
 };
 
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(console.log);
-  } else {
-    alert('geolocation not supported')
-  }
-}
 
 function generateButtons(country, setCountry) {
   return countries.map(c =>
@@ -233,7 +226,6 @@ function Dashboard(props) {
   const [country, setCountry] = React.useState('india');
   // const [barChartType, setBarChartType] = React.useState('mauna-loa');
   
-  getLocation();
   React.useEffect(() => {
     fetch("/api/fossil")
       .then((res) => res.json())

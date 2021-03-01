@@ -205,21 +205,12 @@ const renderBarChart = (canvas, data, chartType) => {
   };
 };
 
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(console.log);
-  } else {
-    alert('geolocation not supported')
-  }
-}
-
 function Dashboard(props) {
   const [seaLevelData, setSeaLevelData] = React.useState([]);
   // const [barChartData, setBarChartData] = React.useState({});
   const [glacierMassData, setGlacierMassData] = React.useState([]);
   // const [barChartType, setBarChartType] = React.useState('mauna-loa');
   
-  getLocation();
   React.useEffect(() => {
     fetch("/api/sea-level")
       .then((res) => res.json())
