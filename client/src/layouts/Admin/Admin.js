@@ -124,7 +124,7 @@ function Admin(props) {
               />
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from="*" to="/admin/dashboard" />
+                <Redirect from="*" to="/admin/events" />
               </Switch>
               {
                 // we don't want the Footer to be rendered on map page
